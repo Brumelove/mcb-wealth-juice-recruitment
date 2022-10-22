@@ -1,6 +1,9 @@
-package mu.mcb.juice.recruitment.model;
+package mu.mcb.juice.recruitment.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +19,6 @@ import java.io.Serializable;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Instructor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

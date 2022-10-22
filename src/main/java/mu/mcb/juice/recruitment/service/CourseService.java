@@ -1,6 +1,6 @@
 package mu.mcb.juice.recruitment.service;
 
-import mu.mcb.juice.recruitment.dto.CourseDto;
+import mu.mcb.juice.recruitment.dao.CourseDao;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ public interface CourseService {
      * @param studentId
      * @return  List<CourseDto>
      */
-    List<CourseDto> getCoursesByStudentId(Integer studentId);
+    List<CourseDao> getCoursesByStudentId(Integer studentId);
 
     Integer countCourseDurationByStudentId(Integer studentId);
 
-    CourseDto create(CourseDto courseDto);
-    CourseDto update(CourseDto courseDto);
-    CourseDto findById(Integer id);
-    List<CourseDto> findAll();
+    CourseDao create(CourseDao courseDao);
+    CourseDao update(CourseDao courseDao);
+    CourseDao findById(Integer id);
+    List<CourseDao> findAll();
     void delete(Integer id);
 
 }

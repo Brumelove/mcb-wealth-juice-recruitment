@@ -1,6 +1,6 @@
 package mu.mcb.juice.recruitment.service;
 
-import mu.mcb.juice.recruitment.dto.StudentDto;
+import mu.mcb.juice.recruitment.dao.StudentDao;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import java.util.List;
  * @author Brume
  **/
 public interface StudentService {
-     List<StudentDto> findStudentByInstructorId(Integer instructorId);
-    StudentDto create(StudentDto courseDto);
-    StudentDto update(StudentDto courseDto);
-    StudentDto findById(Integer id);
-    List<StudentDto> findAll();
+     List<StudentDao> findStudentsByInstructorId(Integer instructorId);
+    StudentDao create(StudentDao courseDto);
+    StudentDao update(StudentDao courseDto);
+    StudentDao findById(Integer id);
+    List<StudentDao> findAll();
     void delete(Integer id);
 }

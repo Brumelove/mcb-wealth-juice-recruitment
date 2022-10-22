@@ -1,6 +1,6 @@
 package mu.mcb.juice.recruitment.service;
 
-import mu.mcb.juice.recruitment.dto.DepartmentDto;
+import mu.mcb.juice.recruitment.dao.DepartmentDao;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  **/
 public interface DepartmentService {
 
-    DepartmentDto create(DepartmentDto courseDto);
-    DepartmentDto update(DepartmentDto courseDto);
-    DepartmentDto findById(Integer id);
-    List<DepartmentDto> findAll();
+    DepartmentDao create(DepartmentDao courseDto);
+    DepartmentDao update(DepartmentDao courseDto);
+    DepartmentDao findById(Integer id);
+    List<DepartmentDao> findAll();
     void delete(Integer id);
 }

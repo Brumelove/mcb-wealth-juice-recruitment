@@ -1,7 +1,7 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mu.mcb.juice.recruitment.dto.CourseDto;
+import mu.mcb.juice.recruitment.dao.CourseDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.CourseRepository;
 import mu.mcb.juice.recruitment.service.CourseService;
@@ -22,7 +22,7 @@ public class CourseServiceImpl implements CourseService {
     private final JuiceMapper mapper;
 
     @Override
-    public List<CourseDto> getCoursesByStudentId(Integer studentId) {
+    public List<CourseDao> getCoursesByStudentId(Integer studentId) {
         return mapper.mapCourseModelListToDto(repository.findAllByStudent_Id(studentId));
     }
 
@@ -32,14 +32,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDto create(CourseDto courseDto) {
-        findByUserNameOrEmail(courseDto.getDepartmentName(), courseDto.getName());
+    public CourseDao create(CourseDao courseDao) {
+        findByUserNameOrEmail(courseDao.getDepartmentName(), courseDao.getName());
 
-        return createNew(courseDto);
+        return createNew(courseDao);
     }
 
-    private CourseDto createNew(CourseDto courseDto) {
-        var newCourse = repository.save(mapper.mapCourseDtoToModelMapper(courseDto));
+    private CourseDao createNew(CourseDao courseDao) {
+        var newCourse = repository.save(mapper.mapCourseDtoToModelMapper(courseDao));
         return mapper.mapCourseModelToDto(newCourse);
     }
 
@@ -50,18 +50,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDto update(CourseDto courseDto) {
+    public CourseDao update(CourseDao courseDao) {
 
-        var oldCourse = findById(courseDto.getId());
+        var oldCourse = findById(courseDao.getId());
         if (Objects.isNull(oldCourse)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "course does not exist");
         } else {
-            return createNew(courseDto);
+            return createNew(courseDao);
         }
     }
 
     @Override
-    public CourseDto findById(Integer id) {
+    public CourseDao findById(Integer id) {
         var optionalCourse = repository.findById(id);
         if (optionalCourse.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course id not found");
@@ -70,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> findAll() {
+    public List<CourseDao> findAll() {
         return mapper.mapCourseModelListToDto(repository.findAll());
     }
 

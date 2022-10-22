@@ -2,10 +2,14 @@ package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mu.mcb.juice.recruitment.dto.LoginRequest;
-import mu.mcb.juice.recruitment.dto.UserDto;
+import mu.mcb.juice.recruitment.dao.LoginRequest;
+import mu.mcb.juice.recruitment.dao.UserDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.UserRepository;
+import mu.mcb.juice.recruitment.service.UserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -39,46 +44,52 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository repository;
     private final JuiceMapper mapper;
-    private final AuthenticationManager authenticationManager;
+    @Lazy @Autowired
+    private  AuthenticationManager authenticationManager;
 
 
-    public UserDto findByUserNameOrEmail(String userName, String email) {
+    private UserDao findByUserNameOrEmail(String userName, String email) {
         var optionalUser = repository.findByUserNameOrEmail(userName, email);
         if (optionalUser.isPresent()) return mapper.mapUserModelToDto(optionalUser.get());
         else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with " + userName + "or " + email + " does not exists");
     }
 
-
-    public UserDto createNewUser(UserDto userDto) {
-        var oldUser = findByUserNameOrEmail(userDto.getUserName(), userDto.getEmail());
-        return createUser(Objects.requireNonNullElse(oldUser, userDto));
+    @Override
+    public UserDao create(UserDao userDao) {
+        var oldUser = findByUserNameOrEmail(userDao.getUserName(), userDao.getEmail());
+        return createUser(Objects.requireNonNullElse(oldUser, userDao));
     }
 
-    private UserDto createUser(UserDto userDto) {
-        var user = mapper.mapUserDtoToModelMapper(userDto);
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+    private UserDao createUser(UserDao userDao) {
+        var user = mapper.mapUserDtoToModelMapper(userDao);
+        user.setPassword(new BCryptPasswordEncoder().encode(userDao.getPassword()));
 
         var newUser = repository.save(user);
         return mapper.mapUserModelToDto(newUser);
     }
 
-
-    public mu.mcb.juice.recruitment.model.User findById(Long id) {
+    private mu.mcb.juice.recruitment.entity.User findById(Long id) {
         var optionalUser = repository.findById(id);
         if (optionalUser.isPresent()) return optionalUser.get();
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with " + id + " does not exists");
     }
 
-
-    public UserDto update(UserDto userDto) {
-        return createNewUser(userDto);
+    @Override
+    public List<UserDao> findAll() {
+        return mapper.mapUserModelListToDto(repository.findAll());
     }
 
+    @Override
+    public UserDao update(UserDao userDao) {
+        BeanUtils.copyProperties(userDao, mu.mcb.juice.recruitment.entity.User.class, "password");
+        return create(userDao);
+    }
 
+    @Override
     public String delete(Long id) {
 
         var user = findById(id);
@@ -118,8 +129,8 @@ public class UserServiceImpl implements UserDetailsService {
         }
     }
 
-
-    public UserDto changePassword(String emailOrUsername, String password, String confirmPassword) {
+    @Override
+    public UserDao changePassword(String emailOrUsername, String password, String confirmPassword) {
         var user = findByUserNameOrEmail(emailOrUsername, emailOrUsername);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The user with Email or Username " + emailOrUsername + " does not exists");

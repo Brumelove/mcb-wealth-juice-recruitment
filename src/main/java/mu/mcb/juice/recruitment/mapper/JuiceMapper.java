@@ -1,7 +1,7 @@
 package mu.mcb.juice.recruitment.mapper;
 
-import mu.mcb.juice.recruitment.dto.*;
-import mu.mcb.juice.recruitment.model.*;
+import mu.mcb.juice.recruitment.dao.*;
+import mu.mcb.juice.recruitment.entity.*;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -11,24 +11,25 @@ import java.util.List;
  **/
 @Mapper(componentModel = "spring")
 public interface JuiceMapper {
-    UserDto mapUserModelToDto(User source);
-    User mapUserDtoToModelMapper(UserDto target);
+    UserDao mapUserModelToDto(User source);
+    User mapUserDtoToModelMapper(UserDao target);
 
-    InstructorDto mapInstructorModelToDto(Instructor source);
-    List<InstructorDto> mapInstructorModelListToDto(List<Instructor> source);
-    Instructor mapInstructorDtoToMapper(InstructorDto target);
+    InstructorDao mapInstructorModelToDto(Instructor source);
+    List<InstructorDao> mapInstructorModelListToDto(List<Instructor> source);
+    Instructor mapInstructorDtoToMapper(InstructorDao target);
 
-    StudentDto mapStudentModelToDto(Student source);
-    List<StudentDto> mapStudentModelListToDto(List<Student> source);
-    Student mapStudentDtoToMapper(StudentDto target);
-    List<Student> mapStudentDtoListToMapper(List<StudentDto> target);
+    StudentDao mapStudentModelToDto(Student source);
+    List<StudentDao> mapStudentModelListToDto(List<Student> source);
+    Student mapStudentDtoToMapper(StudentDao target);
 
 
-    DepartmentDto mapDepartmentModelToDto(Department source);
-   List<DepartmentDto>  mapDepartmentModelListToDto(List<Department> source);
-    Department mapDepartmentDtoToModelMapper(DepartmentDto target);
+    DepartmentDao mapDepartmentModelToDto(Department source);
+   List<DepartmentDao>  mapDepartmentModelListToDto(List<Department> source);
+    Department mapDepartmentDtoToModelMapper(DepartmentDao target);
 
-    CourseDto mapCourseModelToDto(Course source);
-    List<CourseDto> mapCourseModelListToDto(List<Course> source);
-    Course mapCourseDtoToModelMapper(CourseDto target);
+    CourseDao mapCourseModelToDto(Course source);
+    List<CourseDao> mapCourseModelListToDto(List<Course> source);
+    Course mapCourseDtoToModelMapper(CourseDao target);
+
+    List<UserDao> mapUserModelListToDto(List<User> all);
 }

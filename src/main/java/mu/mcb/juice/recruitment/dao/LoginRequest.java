@@ -1,4 +1,4 @@
-package mu.mcb.juice.recruitment.dto;
+package mu.mcb.juice.recruitment.dao;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,16 +1,16 @@
-package mu.mcb.juice.recruitment.dto;
+package mu.mcb.juice.recruitment.dao;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import mu.mcb.juice.recruitment.UserRole;
+import mu.mcb.juice.recruitment.enumeration.UserRole;
 
 /**
  * @author Brume
  **/
 @Getter
 @Setter
-public class UserDto {
+public class UserDao {
     @ApiModelProperty(hidden = true)
     private Long id;
     private  String userName;

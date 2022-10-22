@@ -1,9 +1,10 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mu.mcb.juice.recruitment.dto.StudentDto;
+import mu.mcb.juice.recruitment.dao.StudentDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.StudentRepository;
+import mu.mcb.juice.recruitment.service.CourseService;
 import mu.mcb.juice.recruitment.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,26 +20,28 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final JuiceMapper mapper;
     private final StudentRepository repository;
+    private final CourseService courseService;
 
     @Override
-    public List<StudentDto> findStudentByInstructorId(Integer instructorId) {
+    public List<StudentDao> findStudentsByInstructorId(Integer instructorId) {
         return mapper.mapStudentModelListToDto(repository.findAllByCourses_instructorId(instructorId));
     }
 
     @Override
-    public StudentDto create(StudentDto studentDto) {
-        var student = repository.save(mapper.mapStudentDtoToMapper(studentDto));
-        return mapper.mapStudentModelToDto(student);    }
+    public StudentDao create(StudentDao studentDao) {
+        var student = mapper.mapStudentDtoToMapper(studentDao);
+
+        return mapper.mapStudentModelToDto(repository.save(student));    }
 
     @Override
-    public StudentDto update(StudentDto studentDto) {
-        findById(studentDto.getId());
+    public StudentDao update(StudentDao studentDao) {
+        findById(studentDao.getId());
 
-        return create(studentDto);
+        return create(studentDao);
     }
 
     @Override
-    public StudentDto findById(Integer id) {
+    public StudentDao findById(Integer id) {
         var optionalStudent = repository.findById(id);
         if (optionalStudent.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student with id not found");
@@ -47,7 +50,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDto> findAll() {
+    public List<StudentDao> findAll() {
         return mapper.mapStudentModelListToDto(repository.findAll());
     }
 

@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:~/test
+    url: jdbc:h2:~/testdb
     username: sa
     password:
     hikari:
@@ -23,3 +23,18 @@ spring:
     console:
       enabled: true
       path: /h2-ui
+app:
+    name: mcb-juice
+    version: 1
+    description: Recruitment task for Mcb
+
+security:
+  signing-key: qazXdr4563x
+
+jwt:
+  authorizedGrantTypes: password,authorization_code,refresh_token
+  accessTokenValiditySeconds: 3600
+  client-secret: evolutics.tech.core
+  secret: evolutics.tech.core
+  clientId: evolutics-tech-core
+  refreshTokenValiditySeconds: 86400

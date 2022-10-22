@@ -1,7 +1,10 @@
-package mu.mcb.juice.recruitment.model;
+package mu.mcb.juice.recruitment.entity;
 
-import lombok.*;
-import mu.mcb.juice.recruitment.UserRole;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import mu.mcb.juice.recruitment.enumeration.UserRole;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -16,7 +19,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
+@Table(name = "users")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

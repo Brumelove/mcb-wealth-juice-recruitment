@@ -1,4 +1,4 @@
-package mu.mcb.juice.recruitment;
+package mu.mcb.juice.recruitment.enumeration;
 
 /**
  * @author Brume

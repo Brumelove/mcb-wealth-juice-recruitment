@@ -1,6 +1,6 @@
 package mu.mcb.juice.recruitment.service;
 
-import mu.mcb.juice.recruitment.dto.InstructorDto;
+import mu.mcb.juice.recruitment.dao.InstructorDao;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import java.util.List;
  * @author Brume
  **/
 public interface InstructorService {
-    InstructorDto create(InstructorDto courseDto);
-    InstructorDto update(InstructorDto courseDto);
-    InstructorDto findById(Integer id);
-    List<InstructorDto> findAll();
+    InstructorDao create(InstructorDao courseDto);
+    InstructorDao update(InstructorDao courseDto);
+    InstructorDao findById(Integer id);
+    List<InstructorDao> findAll();
     void delete(Integer id);
 }

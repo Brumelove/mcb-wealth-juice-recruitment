@@ -1,7 +1,7 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mu.mcb.juice.recruitment.dto.InstructorDto;
+import mu.mcb.juice.recruitment.dao.InstructorDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.InstructorRepository;
 import mu.mcb.juice.recruitment.service.InstructorService;
@@ -23,23 +23,23 @@ public class InstructorServiceImpl implements InstructorService {
 
 
     @Override
-    public InstructorDto create(InstructorDto instructorDto) {
-        var instructor = repository.save(mapper.mapInstructorDtoToMapper(instructorDto));
+    public InstructorDao create(InstructorDao instructorDao) {
+        var instructor = repository.save(mapper.mapInstructorDtoToMapper(instructorDao));
         return mapper.mapInstructorModelToDto(instructor);
     }
 
     @Override
-    public InstructorDto update(InstructorDto instructorDto) {
-        var oldInstructor = findById(instructorDto.getId());
+    public InstructorDao update(InstructorDao instructorDao) {
+        var oldInstructor = findById(instructorDao.getId());
         if (Objects.isNull(oldInstructor)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Department does not exist");
         } else {
-            return create(instructorDto);
+            return create(instructorDao);
         }
     }
 
     @Override
-    public InstructorDto findById(Integer id) {
+    public InstructorDao findById(Integer id) {
         var optionalDepartment = repository.findById(id);
         if (optionalDepartment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Instructor with id not found");
@@ -48,7 +48,7 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public List<InstructorDto> findAll() {
+    public List<InstructorDao> findAll() {
         return mapper.mapInstructorModelListToDto(repository.findAll());
     }
 

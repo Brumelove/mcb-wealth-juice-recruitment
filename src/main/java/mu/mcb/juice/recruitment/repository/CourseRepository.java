@@ -1,6 +1,6 @@
 package mu.mcb.juice.recruitment.repository;
 
-import mu.mcb.juice.recruitment.model.Course;
+import mu.mcb.juice.recruitment.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
