@@ -1,0 +1,25 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /university
+
+spring:
+  datasource:
+    url: jdbc:h2:~/test
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 2
+    driver-class-name: org.h2.Driver
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-ui
