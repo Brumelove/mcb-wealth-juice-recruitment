@@ -15,6 +15,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findAllByStudent_Id(Integer studentId);
     Optional<Course> findByDepartmentNameAndName(String departmentName, String name);
 
-    @Query("select count(c.duration) from Course c where c.student.id =:studentId")
-    Integer countCourseDurationByStudentId(Integer studentId);
+    @Query("select sum (c.duration) from Course c where c.student.id =:studentId")
+    Integer sumCourseDurationByStudentId(Integer studentId);
 }

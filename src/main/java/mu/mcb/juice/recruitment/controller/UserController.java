@@ -26,16 +26,16 @@ import java.util.List;
 public class UserController {
     private final UserService service;
 
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<UserDao> create(@Valid @RequestBody UserDao user) {
         return ResponseEntity.ok().body(service.create(user));
     }
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<UserDetails> login(HttpServletRequest request, @Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok().body(service.login(request, loginRequest));
     }
 
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public ResponseEntity<Void> login(HttpServletRequest request, HttpServletResponse response) {
         service.logout(request, response);
         return ResponseEntity.ok().build();

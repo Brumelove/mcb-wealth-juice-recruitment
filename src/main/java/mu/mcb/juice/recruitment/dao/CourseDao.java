@@ -16,4 +16,5 @@ public class CourseDao {
     private  String departmentName;
     private  Integer instructorId;
     private  Integer duration;
+    private StudentDao student;
 }

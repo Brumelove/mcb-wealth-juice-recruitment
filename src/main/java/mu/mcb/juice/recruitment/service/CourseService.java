@@ -14,10 +14,10 @@ public interface CourseService {
      */
     List<CourseDao> getCoursesByStudentId(Integer studentId);
 
-    Integer countCourseDurationByStudentId(Integer studentId);
+    Integer sumCourseDurationByStudentId(Integer studentId);
 
-    CourseDao create(CourseDao courseDao);
-    CourseDao update(CourseDao courseDao);
+    CourseDao create(Integer studentId,CourseDao courseDao);
+    CourseDao update(Integer studentId,CourseDao courseDao);
     CourseDao findById(Integer id);
     List<CourseDao> findAll();
     void delete(Integer id);
