@@ -24,7 +24,9 @@ public class Course implements Serializable {
     private  Integer duration;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
+    @JoinTable(name="course_student",
+            joinColumns={@JoinColumn(name="course_id")},
+            inverseJoinColumns={@JoinColumn(name="student_id")})
     private Student student;
 
 }

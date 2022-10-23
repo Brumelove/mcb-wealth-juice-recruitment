@@ -1,6 +1,7 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mu.mcb.juice.recruitment.dao.DepartmentDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.DepartmentRepository;
@@ -17,6 +18,7 @@ import java.util.Objects;
  **/
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository repository;
     private final JuiceMapper mapper;
@@ -25,6 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDao create(DepartmentDao departmentDao) {
         var department = repository.save(mapper.mapDepartmentDtoToModelMapper(departmentDao));
+        log.info("DATA ::: ::: " +department);
         return mapper.mapDepartmentModelToDto(department);
     }
 

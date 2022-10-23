@@ -1,7 +1,6 @@
 package mu.mcb.juice.recruitment.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import mu.mcb.juice.recruitment.dao.InstructorDao;
 import mu.mcb.juice.recruitment.service.InstructorService;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import java.util.List;
  **/
 @RequiredArgsConstructor
 @RestController
-@Slf4j
 @Validated
 @RequestMapping("/instructors")
 public class InstructorController {

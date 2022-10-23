@@ -1,27 +1,27 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mu.mcb.juice.recruitment.dao.CourseDao;
 import mu.mcb.juice.recruitment.entity.Course;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.CourseRepository;
 import mu.mcb.juice.recruitment.service.CourseService;
-import mu.mcb.juice.recruitment.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Brume
  **/
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository repository;
-    private final StudentService studentService;
     private final JuiceMapper mapper;
 
     @Override
@@ -36,34 +36,32 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDao create(Integer studentId, CourseDao courseDao) {
-        findByUserNameOrEmail(courseDao.getDepartmentName(), courseDao.getName());
-
-        return createNew(studentId, courseDao);
+    public CourseDao create(CourseDao courseDao) {
+//       var response = findByDepartmentNameAndName(courseDao.getDepartmentName(), courseDao.getName());
+//       log.info("COURSES" +response);
+        return createNew(courseDao);
     }
 
-    private CourseDao createNew(Integer studentId, CourseDao courseDao) {
-        var student = studentService.findById(studentId);
-        courseDao.setStudent(student);
-
+    private CourseDao createNew(CourseDao courseDao) {
         var newCourse = mapper.mapCourseDtoToModelMapper(courseDao);
         return mapper.mapCourseModelToDto(repository.save(newCourse));
     }
 
-    private void findByUserNameOrEmail(String departmentName, String name) {
+    private Optional<Course> findByDepartmentNameAndName(String departmentName, String name) {
         var optionalCourse = repository.findByDepartmentNameAndName(departmentName, name);
         if (optionalCourse.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course with " + name + "for  " + departmentName + " Department already exists");
+        else return optionalCourse;
     }
 
     @Override
-    public CourseDao update(Integer studentId, CourseDao courseDao) {
+    public CourseDao update(CourseDao courseDao) {
 
         var oldCourse = findById(courseDao.getId());
         if (Objects.isNull(oldCourse)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "course does not exist");
         } else {
-            return createNew(studentId, courseDao);
+            return createNew(courseDao);
         }
     }
 
@@ -79,6 +77,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDao> findAll() {
         return mapper.mapCourseModelListToDto(repository.findAll());
+    }
+
+    public Set<Course> findAllByIdIn(Collection<Integer> courseId) {
+
+        var courses = repository.findAllByIdIn(courseId);
+        if (CollectionUtils.isEmpty(courses))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "please check the ids properly");
+        else return Set.copyOf(courses);
     }
 
     @Override

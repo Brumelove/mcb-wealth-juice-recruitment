@@ -27,8 +27,6 @@ class CourseServiceImplTest {
     @Mock
     private CourseRepository repository;
     @Mock
-    private StudentServiceImpl studentService;
-    @Mock
     private JuiceMapper mapper;
     @InjectMocks
     private CourseServiceImpl service;
@@ -66,7 +64,6 @@ var courseList = createCourses();
         var course2 = new CourseDao();
         course2.setDuration(30);
         course2.setId(1);
-        course2.setStudent(student);
 
         return List.of(course1, course2);
     }
@@ -97,14 +94,13 @@ var courseList = createCourses();
 
         when(service.findById(1)).thenReturn(courseDao);
 
-        when(studentService.findById(1)).thenReturn(courseDao.getStudent());
 
         when(mapper.mapCourseDtoToModelMapper(courseDao)).thenReturn(course);
         when(repository.save(course)).thenReturn(course);
 
         when(mapper.mapCourseModelToDto(course)).thenReturn(courseDao);
 
-        var response = service.update(1, courseDao);
+        var response = service.update( courseDao);
 
         assertNotNull(response);
         assertEquals(1, response.getId());

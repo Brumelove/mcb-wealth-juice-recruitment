@@ -3,16 +3,19 @@ package mu.mcb.juice.recruitment.repository;
 import mu.mcb.juice.recruitment.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * @author Brume
  **/
-
+@Transactional
 public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findAllByStudent_Id(Integer studentId);
+    List<Course> findAllByIdIn(Collection<Integer> courseId);
     Optional<Course> findByDepartmentNameAndName(String departmentName, String name);
 
     @Query("select sum (c.duration) from Course c where c.student.id =:studentId")

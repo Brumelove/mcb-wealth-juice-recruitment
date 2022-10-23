@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mu.mcb.juice.recruitment.dao.LoginRequest;
 import mu.mcb.juice.recruitment.dao.UserDao;
+import mu.mcb.juice.recruitment.enumeration.UserRole;
 import mu.mcb.juice.recruitment.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -56,5 +58,15 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostConstruct
+    void createUser() {
+        var userDao = new UserDao();
+        userDao.setUserName("brume");
+        userDao.setEmail("brumeloveee@gmail.com");
+        userDao.setPassword("brume");
+        userDao.setUserRole(UserRole.ADMIN);
+        service.create(userDao);
     }
 }

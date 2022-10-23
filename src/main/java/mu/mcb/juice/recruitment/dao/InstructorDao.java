@@ -1,14 +1,12 @@
 package mu.mcb.juice.recruitment.dao;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * @author Brume
  **/
-@Getter
-@Setter
+@Data
 public class InstructorDao {
     @ApiModelProperty(hidden = true)
     private Integer id;

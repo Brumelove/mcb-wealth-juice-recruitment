@@ -20,14 +20,14 @@ import java.util.List;
 public class CoursesController {
     private final CourseService service;
 
-    @PostMapping("/{studentId}")
-    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
-        return ResponseEntity.ok().body(service.create(studentId, course));
+    @PostMapping()
+    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course) {
+        return ResponseEntity.ok().body(service.create(course));
     }
 
-    @PutMapping("/{studentId}")
-    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
-        return ResponseEntity.ok().body(service.update(studentId,course));
+    @PutMapping()
+    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course) {
+        return ResponseEntity.ok().body(service.update(course));
     }
 
     @GetMapping()
@@ -45,7 +45,7 @@ public class CoursesController {
         return ResponseEntity.ok().body(service.sumCourseDurationByStudentId(studentId));
     }
 
-    @GetMapping("/{studentId}")
+    @GetMapping("/student/{studentId}")
     public ResponseEntity<List<CourseDao>> getCoursesByStudentId(@PathVariable Integer studentId) {
         return ResponseEntity.ok().body(service.getCoursesByStudentId(studentId));
     }

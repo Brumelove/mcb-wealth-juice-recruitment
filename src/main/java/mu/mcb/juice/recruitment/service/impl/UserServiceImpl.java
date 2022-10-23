@@ -58,9 +58,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with " + userName + "or " + email + " does not exists");
     }
 
+    private UserDao getByUserNameOrEmail(String userName, String email) {
+        var optionalUser = repository.findByUserNameOrEmail(userName, email);
+        if (optionalUser.isPresent())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with " + userName + "or " + email + "  exists");
+        return null;
+    }
+
     @Override
     public UserDao create(UserDao userDao) {
-        var oldUser = findByUserNameOrEmail(userDao.getUserName(), userDao.getEmail());
+        var oldUser = getByUserNameOrEmail(userDao.getUserName(), userDao.getEmail());
         return createUser(Objects.requireNonNullElse(oldUser, userDao));
     }
 

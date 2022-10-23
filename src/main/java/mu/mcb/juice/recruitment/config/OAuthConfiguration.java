@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -27,6 +28,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Order(1)
 public class OAuthConfiguration implements AuthorizationServerConfigurer {
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final UserServiceImpl userDetailsService;
     @Value("${jwt.clientId}")
     private String clientId;
@@ -76,10 +78,11 @@ public class OAuthConfiguration implements AuthorizationServerConfigurer {
         clients
                 .inMemory() // (2)
                 .withClient(clientId)
-                .secret(clientSecret) // (3)
+                .secret(passwordEncoder.encode(clientSecret)) // (3)
                 .accessTokenValiditySeconds(accessTokenValiditySeconds)
                 .refreshTokenValiditySeconds(refreshTokenValiditySeconds)
-                .scopes("any") // (4)
+                .scopes("read", "write")
+                .resourceIds("university")// (4)
                 .autoApprove(true)
                 .authorizedGrantTypes(authorizedGrantTypes)
         ;
@@ -87,9 +90,11 @@ public class OAuthConfiguration implements AuthorizationServerConfigurer {
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.authenticationManager(this.authenticationManager)
+        endpoints
+                .authenticationManager(this.authenticationManager)
                 .accessTokenConverter(accessTokenConverter())
                 .userDetailsService(userDetailsService)
-                .tokenStore(tokenStore());
+                .tokenStore(tokenStore())
+        ;
     }
 }

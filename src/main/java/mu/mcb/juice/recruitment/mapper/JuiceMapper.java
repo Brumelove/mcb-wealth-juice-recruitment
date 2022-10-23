@@ -3,6 +3,7 @@ package mu.mcb.juice.recruitment.mapper;
 import mu.mcb.juice.recruitment.dao.*;
 import mu.mcb.juice.recruitment.entity.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -11,6 +12,10 @@ import java.util.List;
  **/
 @Mapper(componentModel = "spring")
 public interface JuiceMapper {
+    static JuiceMapper getJuiceMapper() {
+        return Mappers.getMapper(JuiceMapper.class);
+    }
+
     UserDao mapUserModelToDto(User source);
     User mapUserDtoToModelMapper(UserDao target);
 

@@ -1,7 +1,9 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mu.mcb.juice.recruitment.dao.InstructorDao;
+import mu.mcb.juice.recruitment.entity.Instructor;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.InstructorRepository;
 import mu.mcb.juice.recruitment.service.InstructorService;
@@ -17,6 +19,7 @@ import java.util.Objects;
  **/
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class InstructorServiceImpl implements InstructorService {
     private final InstructorRepository repository;
     private final JuiceMapper mapper;
@@ -24,7 +27,12 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public InstructorDao create(InstructorDao instructorDao) {
-        var instructor = repository.save(mapper.mapInstructorDtoToMapper(instructorDao));
+      Instructor entity =  mapper.mapInstructorDtoToMapper(instructorDao);
+        log.info("ENTITY ::: ::: " +entity.getDepartmentName());
+
+        Instructor instructor = repository.save(entity);
+        log.info("DATA ::: ::: " +instructor);
+
         return mapper.mapInstructorModelToDto(instructor);
     }
 

@@ -31,7 +31,8 @@ public class StudentServiceImpl implements StudentService {
     public StudentDao create(StudentDao studentDao) {
         var student = mapper.mapStudentDtoToMapper(studentDao);
 
-        return mapper.mapStudentModelToDto(repository.save(student));    }
+        return mapper.mapStudentModelToDto(repository.save(student));
+    }
 
     @Override
     public StudentDao update(StudentDao studentDao) {
