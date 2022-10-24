@@ -89,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**", "university/swagger-ui/**", "/university/h2-ui", "/university/users/login", "/university/users/create")
                 .permitAll()
                 .antMatchers("/university/**").authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authEntryPointJwt).and()

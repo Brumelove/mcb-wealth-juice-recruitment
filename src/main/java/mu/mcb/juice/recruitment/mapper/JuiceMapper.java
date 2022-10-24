@@ -25,7 +25,7 @@ public interface JuiceMapper {
 
     StudentDao mapStudentModelToDto(Student source);
     List<StudentDao> mapStudentModelListToDto(List<Student> source);
-    Student mapStudentDtoToMapper(StudentDao target);
+    Student mapStudentDtoToMapper(StudentDao source);
 
 
     DepartmentDao mapDepartmentModelToDto(Department source);

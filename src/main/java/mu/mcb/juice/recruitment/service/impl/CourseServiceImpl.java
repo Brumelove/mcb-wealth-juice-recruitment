@@ -3,14 +3,15 @@ package mu.mcb.juice.recruitment.service.impl;
 import lombok.RequiredArgsConstructor;
 import mu.mcb.juice.recruitment.dao.CourseDao;
 import mu.mcb.juice.recruitment.entity.Course;
+import mu.mcb.juice.recruitment.exception.BadRequestException;
+import mu.mcb.juice.recruitment.exception.ElementNotFoundException;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.CourseRepository;
 import mu.mcb.juice.recruitment.service.CourseService;
+import mu.mcb.juice.recruitment.service.DepartmentService;
 import mu.mcb.juice.recruitment.service.InstructorService;
 import mu.mcb.juice.recruitment.service.StudentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository repository;
     private final StudentService studentService;
     private final InstructorService instructorService;
+    private final DepartmentService departmentService;
     private final JuiceMapper mapper;
 
     @Override
@@ -39,12 +41,18 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDao create(Integer studentId, CourseDao courseDao) {
-
+        if (courseDao.getId() != null) {
+            throw new BadRequestException("The ID must not be provided when creating a new Course");
+        }
         return createNew(studentId, courseDao);
     }
 
     private CourseDao createNew(Integer studentId, CourseDao courseDao) {
-         instructorService.findById(courseDao.getId());
+       var instructor =  instructorService.existsById(courseDao.getInstructorId());
+       var dept =  departmentService.findByName(courseDao.getDepartmentName());
+       if (!instructor && !dept) {
+           throw new ElementNotFoundException("Instructor id or Department Name does not exist");
+        }
 
         var student = studentService.findById(studentId);
         courseDao.setStudent(student);
@@ -59,7 +67,7 @@ public class CourseServiceImpl implements CourseService {
 
         var oldCourse = findById(courseDao.getId());
         if (Objects.isNull(oldCourse)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "course does not exist");
+            throw new ElementNotFoundException("course does not exist");
         } else {
             return createNew(studentId, courseDao);
         }
@@ -69,7 +77,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseDao findById(Integer id) {
         var optionalCourse = repository.findById(id);
         if (optionalCourse.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course id not found");
+            throw new ElementNotFoundException( "Course id not found");
         }
         return mapper.mapCourseModelToDto(optionalCourse.get());
     }

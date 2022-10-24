@@ -21,12 +21,12 @@ public class CoursesController {
     private final CourseService service;
 
     @PostMapping("/{studentId}")
-    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
+    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course, @PathVariable final Integer studentId) {
         return ResponseEntity.ok().body(service.create(studentId, course));
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
+    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course, @PathVariable final Integer studentId) {
         return ResponseEntity.ok().body(service.update(studentId, course));
     }
 

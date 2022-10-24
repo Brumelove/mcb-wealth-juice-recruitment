@@ -2,12 +2,12 @@ package mu.mcb.juice.recruitment.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import mu.mcb.juice.recruitment.dao.StudentDao;
+import mu.mcb.juice.recruitment.exception.BadRequestException;
+import mu.mcb.juice.recruitment.exception.ElementNotFoundException;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.StudentRepository;
 import mu.mcb.juice.recruitment.service.StudentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,6 +27,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDao create(StudentDao studentDao) {
+        if (studentDao.getId() != null) {
+            throw new BadRequestException("The ID must not be provided when creating a new Student");
+        }
+        return createNew(studentDao);
+    }
+
+    private StudentDao createNew(StudentDao studentDao) {
         var student = mapper.mapStudentDtoToMapper(studentDao);
 
         return mapper.mapStudentModelToDto(repository.save(student));
@@ -36,14 +43,14 @@ public class StudentServiceImpl implements StudentService {
     public StudentDao update(StudentDao studentDao) {
         findById(studentDao.getId());
 
-        return create(studentDao);
+        return createNew(studentDao);
     }
 
     @Override
     public StudentDao findById(Integer id) {
         var optionalStudent = repository.findById(id);
         if (optionalStudent.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student with id not found");
+            throw new ElementNotFoundException( "Student with id not found");
         }
         return mapper.mapStudentModelToDto(optionalStudent.get());
     }

@@ -8,6 +8,7 @@ import java.util.List;
  * @author Brume
  **/
 public interface InstructorService {
+    boolean existsById(Integer id);
     InstructorDao create(InstructorDao courseDto);
     InstructorDao update(InstructorDao courseDto);
     InstructorDao findById(Integer id);
