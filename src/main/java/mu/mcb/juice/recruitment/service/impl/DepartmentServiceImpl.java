@@ -31,7 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDao create(DepartmentDao departmentDao) {
-        if (departmentDao.getId() != null) {
+        if (departmentDao.getId() > 0) {
             throw new BadRequestException("The ID must not be provided when creating a new Department");
         }
         return createNew(departmentDao);

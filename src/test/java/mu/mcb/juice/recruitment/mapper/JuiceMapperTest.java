@@ -2,7 +2,6 @@ package mu.mcb.juice.recruitment.mapper;
 
 import mu.mcb.juice.recruitment.ApplicantTestConfig;
 import mu.mcb.juice.recruitment.dao.InstructorDao;
-import mu.mcb.juice.recruitment.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,17 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class JuiceMapperTest {
     @Autowired
     JuiceMapper mapper;
-
-    @Test
-    void mapUserModelToDto() {
-        var userModel = new User();
-        userModel.setUserName("brume");
-        var userDao = JuiceMapper.getJuiceMapper().mapUserModelToDto(userModel);
-
-        assertNotNull(userDao);
-        assertEquals(userModel.getUserName(), userDao.getUserName());
-
-    }
 
     @Test
     void mapInstructorDaoToModel() {

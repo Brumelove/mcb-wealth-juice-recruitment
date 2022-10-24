@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDao create(Integer studentId, CourseDao courseDao) {
-        if (courseDao.getId() != null) {
+        if (courseDao.getId() > 0) {
             throw new BadRequestException("The ID must not be provided when creating a new Course");
         }
         return createNew(studentId, courseDao);

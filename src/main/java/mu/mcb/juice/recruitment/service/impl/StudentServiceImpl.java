@@ -27,7 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDao create(StudentDao studentDao) {
-        if (studentDao.getId() != null) {
+        if (studentDao.getId() > 0) {
             throw new BadRequestException("The ID must not be provided when creating a new Student");
         }
         return createNew(studentDao);

@@ -42,3 +42,13 @@ jwt:
   secret: mcb0oskaoks
   clientId: mcb
   refreshTokenValiditySeconds: 86400
+
+keycloak:
+  realm: mcb-realm
+  auth-server-url: http://localhost:8080/auth
+  ssl-required: external
+  resource: university
+  credentials:
+    secret: hia1zCK8CKjtqi4VESazkfk0GhExxCJp
+  use-resource-role-mappings: true
+  bearer-only: true

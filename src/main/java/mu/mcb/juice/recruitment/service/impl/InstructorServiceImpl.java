@@ -8,6 +8,7 @@ import mu.mcb.juice.recruitment.exception.BadRequestException;
 import mu.mcb.juice.recruitment.exception.ElementNotFoundException;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.InstructorRepository;
+import mu.mcb.juice.recruitment.service.DepartmentService;
 import mu.mcb.juice.recruitment.service.InstructorService;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class InstructorServiceImpl implements InstructorService {
     private final InstructorRepository repository;
     private final JuiceMapper mapper;
+    private final DepartmentService departmentService;
 
 
     @Override
@@ -32,14 +34,17 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public InstructorDao create(InstructorDao instructorDao) {
-        if (instructorDao.getId() != null) {
+        if (instructorDao.getId() > 0) {
             throw new BadRequestException("The ID must not be provided when creating a new Instructor");
+        }
+        if (!departmentService.findByName(instructorDao.getDepartmentName())) {
+            throw new ElementNotFoundException("Department Name does not exist");
         }
         return createNew(instructorDao);
     }
 
     private InstructorDao createNew(InstructorDao instructorDao) {
-        Instructor entity =  mapper.mapInstructorDtoToMapper(instructorDao);
+        Instructor entity = mapper.mapInstructorDtoToMapper(instructorDao);
 
         Instructor instructor = repository.save(entity);
 
@@ -50,7 +55,7 @@ public class InstructorServiceImpl implements InstructorService {
     public InstructorDao update(InstructorDao instructorDao) {
         var oldInstructor = findById(instructorDao.getId());
         if (Objects.isNull(oldInstructor)) {
-            throw new ElementNotFoundException( "Department does not exist");
+            throw new ElementNotFoundException("Department does not exist");
         } else {
             return createNew(instructorDao);
         }
@@ -60,7 +65,7 @@ public class InstructorServiceImpl implements InstructorService {
     public InstructorDao findById(Integer id) {
         var optionalDepartment = repository.findById(id);
         if (optionalDepartment.isEmpty()) {
-            throw new ElementNotFoundException( "Instructor with id not found");
+            throw new ElementNotFoundException("Instructor with id not found");
         }
         return mapper.mapInstructorModelToDto(optionalDepartment.get());
     }

@@ -1,5 +1,7 @@
 package mu.mcb.juice.recruitment.config;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,12 @@ import org.springframework.context.annotation.Configuration;
  * @author brume
  */
 @Configuration
+@SecurityScheme(
+        name = "Bearer Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class OpenApiConfig {
     /**
      * Helper method to populate fields like project title, version and description on Swagger UI
