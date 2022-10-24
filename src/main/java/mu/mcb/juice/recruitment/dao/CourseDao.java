@@ -1,5 +1,6 @@
 package mu.mcb.juice.recruitment.dao;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CourseDao {
-private Integer id;
-    private  String name;
-    private  String departmentName;
-    private  Integer instructorId;
-    private  Integer duration;
+    @ApiModelProperty(hidden = true)
+    private Integer id;
+    private String name;
+    private String departmentName;
+    private Integer instructorId;
+    private Integer duration;
+    @ApiModelProperty(hidden = true)
     private StudentDao student;
 }

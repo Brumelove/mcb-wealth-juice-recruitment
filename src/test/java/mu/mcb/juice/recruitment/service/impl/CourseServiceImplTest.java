@@ -1,6 +1,7 @@
 package mu.mcb.juice.recruitment.service.impl;
 
 import mu.mcb.juice.recruitment.dao.CourseDao;
+import mu.mcb.juice.recruitment.dao.InstructorDao;
 import mu.mcb.juice.recruitment.dao.StudentDao;
 import mu.mcb.juice.recruitment.entity.Course;
 import mu.mcb.juice.recruitment.entity.Student;
@@ -28,6 +29,10 @@ class CourseServiceImplTest {
     private CourseRepository repository;
     @Mock
     private JuiceMapper mapper;
+    @Mock
+    private StudentServiceImpl studentService;
+    @Mock
+    private InstructorServiceImpl instructorService;
     @InjectMocks
     private CourseServiceImpl service;
 
@@ -91,6 +96,8 @@ var courseList = createCourses();
         var courseDao = createCoursesDao().get(0);
 
         when(repository.findById(1)).thenReturn(Optional.ofNullable(course));
+        when(instructorService.findById(1)).thenReturn(new InstructorDao());
+        when(studentService.findById(1)).thenReturn(courseDao.getStudent());
 
         when(service.findById(1)).thenReturn(courseDao);
 
@@ -100,7 +107,7 @@ var courseList = createCourses();
 
         when(mapper.mapCourseModelToDto(course)).thenReturn(courseDao);
 
-        var response = service.update( courseDao);
+        var response = service.update(1, courseDao);
 
         assertNotNull(response);
         assertEquals(1, response.getId());

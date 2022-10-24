@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import mu.mcb.juice.recruitment.dao.StudentDao;
 import mu.mcb.juice.recruitment.mapper.JuiceMapper;
 import mu.mcb.juice.recruitment.repository.StudentRepository;
-import mu.mcb.juice.recruitment.service.CourseService;
 import mu.mcb.juice.recruitment.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final JuiceMapper mapper;
     private final StudentRepository repository;
-    private final CourseService courseService;
 
     @Override
     public List<StudentDao> findStudentsByInstructorId(Integer instructorId) {

@@ -20,14 +20,14 @@ import java.util.List;
 public class CoursesController {
     private final CourseService service;
 
-    @PostMapping()
-    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course) {
-        return ResponseEntity.ok().body(service.create(course));
+    @PostMapping("/{studentId}")
+    public ResponseEntity<CourseDao> create(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
+        return ResponseEntity.ok().body(service.create(studentId, course));
     }
 
-    @PutMapping()
-    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course) {
-        return ResponseEntity.ok().body(service.update(course));
+    @PutMapping("/{studentId}")
+    public ResponseEntity<CourseDao> update(@Valid @RequestBody CourseDao course, @PathVariable Integer studentId) {
+        return ResponseEntity.ok().body(service.update(studentId, course));
     }
 
     @GetMapping()
