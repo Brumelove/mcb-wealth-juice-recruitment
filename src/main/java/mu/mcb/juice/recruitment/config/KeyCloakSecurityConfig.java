@@ -28,11 +28,12 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         http.authorizeRequests()
                 .anyRequest()
                 .permitAll();
-        http.csrf().disable();
+        http.csrf().disable()
+                .headers().frameOptions().disable();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
@@ -43,6 +44,4 @@ public class KeyCloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
-
-
 }

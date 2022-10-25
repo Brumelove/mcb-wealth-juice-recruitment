@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Brume
  **/
 @Configuration
-public class McbConfig {
+public class BeanConfig {
     @Bean
     public KeycloakConfigResolver KeycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();

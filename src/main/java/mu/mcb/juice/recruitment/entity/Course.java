@@ -1,12 +1,13 @@
 package mu.mcb.juice.recruitment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Brume
@@ -28,7 +29,18 @@ public class Course implements Serializable {
     @JoinTable(name="course_student",
             joinColumns={@JoinColumn(name="course_id")},
             inverseJoinColumns={@JoinColumn(name="student_id")})
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Student student;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Course course = (Course) o;
+        return id != null && Objects.equals(id, course.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

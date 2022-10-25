@@ -12,6 +12,7 @@ public interface StudentService {
     StudentDao create(StudentDao courseDto);
     StudentDao update(StudentDao courseDto);
     StudentDao findById(Integer id);
+    boolean existsById(Integer id);
     List<StudentDao> findAll();
     void delete(Integer id);
 }

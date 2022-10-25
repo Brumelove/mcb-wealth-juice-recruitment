@@ -1,12 +1,14 @@
 package mu.mcb.juice.recruitment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -24,6 +26,18 @@ public class Student implements Serializable {
     private String lastName;
     private String phone;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Course> courses;
+    private Set<Course> courses = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Student student = (Student) o;
+        return id != null && Objects.equals(id, student.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

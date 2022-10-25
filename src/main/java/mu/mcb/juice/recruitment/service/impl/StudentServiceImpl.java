@@ -56,6 +56,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public boolean existsById(Integer id) {
+        return repository.existsById(id);
+    }
+
+    @Override
     public List<StudentDao> findAll() {
         return mapper.mapStudentModelListToDto(repository.findAll());
     }

@@ -1,7 +1,6 @@
 //package mu.mcb.juice.recruitment.config;
 //
 //import lombok.RequiredArgsConstructor;
-//import mu.mcb.juice.recruitment.service.impl.UserServiceImpl;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

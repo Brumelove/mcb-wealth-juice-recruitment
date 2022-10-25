@@ -12,6 +12,7 @@ import mu.mcb.juice.recruitment.service.DepartmentService;
 import mu.mcb.juice.recruitment.service.InstructorService;
 import mu.mcb.juice.recruitment.service.StudentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class CourseServiceImpl implements CourseService {
         return repository.sumCourseDurationByStudentId(studentId);
     }
 
+    @Transactional
     @Override
     public CourseDao create(Integer studentId, CourseDao courseDao) {
         if (courseDao.getId() > 0) {
@@ -47,24 +49,24 @@ public class CourseServiceImpl implements CourseService {
         return createNew(studentId, courseDao);
     }
 
+
     private CourseDao createNew(Integer studentId, CourseDao courseDao) {
-       var instructor =  instructorService.existsById(courseDao.getInstructorId());
-       var dept =  departmentService.findByName(courseDao.getDepartmentName());
-       if (!instructor && !dept) {
-           throw new ElementNotFoundException("Instructor id or Department Name does not exist");
+        var instructor = instructorService.existsById(courseDao.getInstructorId());
+        var dept = departmentService.findByName(courseDao.getDepartmentName());
+        if (!instructor && !dept) {
+            throw new ElementNotFoundException("Instructor id or Department Name does not exist");
         }
 
         var student = studentService.findById(studentId);
-        courseDao.setStudent(student);
 
+        courseDao.setStudent(student);
         var newCourse = mapper.mapCourseDtoToModelMapper(courseDao);
         return mapper.mapCourseModelToDto(repository.save(newCourse));
     }
 
-
+    @Transactional
     @Override
     public CourseDao update(Integer studentId, CourseDao courseDao) {
-
         var oldCourse = findById(courseDao.getId());
         if (Objects.isNull(oldCourse)) {
             throw new ElementNotFoundException("course does not exist");
@@ -77,7 +79,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseDao findById(Integer id) {
         var optionalCourse = repository.findById(id);
         if (optionalCourse.isEmpty()) {
-            throw new ElementNotFoundException( "Course id not found");
+            throw new ElementNotFoundException("Course id not found");
         }
         return mapper.mapCourseModelToDto(optionalCourse.get());
     }

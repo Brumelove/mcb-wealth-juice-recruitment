@@ -9,6 +9,7 @@ import mu.mcb.juice.recruitment.entity.Department;
 import mu.mcb.juice.recruitment.entity.Instructor;
 import mu.mcb.juice.recruitment.entity.Student;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public interface JuiceMapper {
 
     StudentDao mapStudentModelToDto(Student source);
     List<StudentDao> mapStudentModelListToDto(List<Student> source);
+    @Mapping(target = "courses", ignore = true)
     Student mapStudentDtoToMapper(StudentDao source);
 
 

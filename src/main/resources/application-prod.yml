@@ -14,7 +14,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -49,6 +49,6 @@ keycloak:
   ssl-required: external
   resource: university
   credentials:
-    secret: hia1zCK8CKjtqi4VESazkfk0GhExxCJp
+    secret: sJtnNIFJBUObTVFI4roO9qnyAIFZ7HJA
   use-resource-role-mappings: true
   bearer-only: true
