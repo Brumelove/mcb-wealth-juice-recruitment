@@ -1,5 +1,6 @@
 package mu.mcb.juice.recruitment.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import mu.mcb.juice.recruitment.dao.CourseDao;
 import mu.mcb.juice.recruitment.service.CourseService;
@@ -14,6 +15,7 @@ import java.util.List;
  **/
 @RequiredArgsConstructor
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/rest/courses")
 public class CoursesController {
     private final CourseService service;
