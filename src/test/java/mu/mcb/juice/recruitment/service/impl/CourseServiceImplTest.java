@@ -39,7 +39,7 @@ class CourseServiceImplTest {
 
     @Test
     void getCoursesByStudentId() {
-var courseList = createCourses();
+        var courseList = createCourses();
         when(repository.findAllByStudent_Id(1)).thenReturn(courseList);
         when(mapper.mapCourseModelListToDto(courseList)).thenReturn(createCoursesDao());
 

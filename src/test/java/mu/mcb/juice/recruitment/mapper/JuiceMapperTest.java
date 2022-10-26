@@ -19,7 +19,7 @@ class JuiceMapperTest {
         var instructorDao = new InstructorDao();
         instructorDao.setDepartmentName("COMP");
 
-        var instructor = mapper.mapInstructorDtoToMapper(instructorDao);
+        var instructor = JuiceMapper.getJuiceMapper().mapInstructorDtoToMapper(instructorDao);
 
         assertNotNull(instructor);
         assertEquals(instructorDao.getDepartmentName(), instructor.getDepartmentName());

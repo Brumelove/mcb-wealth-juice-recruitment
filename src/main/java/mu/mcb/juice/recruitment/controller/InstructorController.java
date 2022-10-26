@@ -1,13 +1,11 @@
 package mu.mcb.juice.recruitment.controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import mu.mcb.juice.recruitment.dao.InstructorDao;
 import mu.mcb.juice.recruitment.service.InstructorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -16,8 +14,6 @@ import java.util.List;
  **/
 @RequiredArgsConstructor
 @RestController
-@RolesAllowed("ADMIN")
-@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/rest/instructors")
 public class InstructorController {
     public final InstructorService service;
